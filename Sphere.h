@@ -22,7 +22,11 @@ class Sphere :
 private:
 	double radius;
 public:
-	Sphere();
+	Sphere(Vector3 _position, double radius);
 	~Sphere();
+
+	//getters and setters
+	double getRadius() const { return radius; }
+	void setRadius(double _radius) { radius = _radius; }
 };
 

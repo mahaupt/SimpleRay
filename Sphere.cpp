@@ -16,8 +16,10 @@
 
 
 
-Sphere::Sphere()
+Sphere::Sphere(Vector3 _position, double _radius)
 {
+	position = _position;
+	radius = _radius;
 }
 
 

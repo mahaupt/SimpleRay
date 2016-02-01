@@ -16,15 +16,17 @@
 
 
 
-GameObject::GameObject(Vector3 _position)
+GameObject::GameObject(const Vector3 _position) : 
+	position(_position)
 {
-	position = _position;
 }
 
 
-GameObject::GameObject()
+GameObject::GameObject() : 
+	position(), 
+	scale(1, 1, 1), 
+	rotation()
 {
-	position = Vector3();
 }
 
 

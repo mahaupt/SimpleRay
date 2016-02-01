@@ -14,11 +14,15 @@
 
 #pragma once
 #include "Vector3.h"
+#include "Quaternion.h"
 
 class GameObject
 {
 protected:
 	Vector3 position;
+	Vector3 scale;
+	Quaternion rotation;
+
 public:
 	GameObject();
 	GameObject(Vector3 _position);
