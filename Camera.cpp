@@ -34,20 +34,38 @@ Camera::~Camera()
 void Camera::renderToImage(std::string file) {
 	bitmap_image bitmap(width, height);
 
-	double widestside = (width > height) ? width : height;
+	unsigned int nthreads = 1;
 
+	//create 4 threads
+	std::vector<std::thread> threadlist = std::vector<std::thread>();
+	for (int i = 0; i < nthreads; i++) {
+		threadlist.push_back(std::thread(renderThread, this, &bitmap, i, nthreads));
+	}
+	
+
+	//join the threads
+	for (std::vector<std::thread>::iterator it = threadlist.begin(); it != threadlist.end(); it++) {
+		(*it).join();
+	}
+
+
+	bitmap.save_image(file);
+}
+
+
+void Camera::renderThread(Camera * camera, bitmap_image * bitmap, unsigned int tid, unsigned int threadNumber) {
 	//create rays
-	for (unsigned int x = 0; x < width; ++x)
+	for (unsigned int x = tid; x < camera->getWidth(); x+=threadNumber)
 	{
-		for (unsigned int y = 0; y < height; ++y)
+		for (unsigned int y = 0; y < camera->getHeight(); ++y)
 		{
 			//calculate ray angles
-			double rayanglex = -aof/width*(y- (double)height*0.5);
-			double rayangley = aof*(x / (double)width - 0.5);
+			double rayanglex = -camera->getAOF() / camera->getWidth()*(y - (double)camera->getHeight()*0.5);
+			double rayangley = camera->getAOF()*(x / (double)camera->getWidth() - 0.5);
 
 			//calculate ray direction from angles
 			Vector3 direction = Vector3(tan(rayanglex), tan(rayangley), 1);
-			Ray ray = Ray(position, direction);
+			Ray ray = Ray(camera->getPosition(), direction);
 
 			//start raytracer and get color
 			RayTracer rt = RayTracer(ray);
@@ -55,9 +73,7 @@ void Camera::renderToImage(std::string file) {
 			Color color = rt.getColor();
 
 			//set pixel color
-			bitmap.set_pixel(x, y, color.getR(), color.getG(), color.getB());
+			bitmap->set_pixel(x, y, color.getR(), color.getG(), color.getB());
 		}
 	}
-
-	bitmap.save_image(file);
 }

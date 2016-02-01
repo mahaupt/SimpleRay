@@ -16,6 +16,8 @@
 #pragma once
 #include "bitmap_image.hpp"
 #include <string>
+#include <thread>
+#include <vector>
 #include "GameObject.h"
 #include "RayTracer.h"
 
@@ -32,5 +34,10 @@ public:
 	~Camera();
 
 	void renderToImage(std::string file);
+	static void Camera::renderThread(Camera * camera, bitmap_image * bitmap, unsigned int tid, unsigned int threadNumber);
+
+	unsigned int getWidth() const { return width; }
+	unsigned int getHeight() const { return height; }
+	double getAOF() const { return aof; }
 };
 

@@ -31,6 +31,7 @@ public:
 
 	Sphere & createSphere(double radius, Vector3 position);
 	Camera & createCamera(Vector3 position);
+	
 
 	//sets and gets
 	std::vector<GameObject*>* getGameObjects() {
