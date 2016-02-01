@@ -22,14 +22,20 @@
 class Scene
 {
 private:
+	static Scene* instance;
 	std::vector<GameObject*> gameObjects;
 
 public:
 	Scene();
 	~Scene();
 
-
 	Sphere & createSphere(double radius, Vector3 position);
 	Camera & createCamera(Vector3 position);
+
+	//sets and gets
+	std::vector<GameObject*>* getGameObjects() {
+		return &gameObjects;
+	}
+	static Scene* getInstance() { return instance; }
 };
 

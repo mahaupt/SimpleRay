@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #pragma once
-
+#include <cmath>
 
 class Vector3
 {
@@ -42,5 +42,10 @@ public:
 	Vector3 operator* (const Vector3 & vector) const;
 	Vector3 operator* (double scalar) const;
 	Vector3 operator/ (double scalar) const;
+
+	void normalize();
+	Vector3 & normalized() const;
+	double magnitude() const;
+	double dot(const Vector3 & vec) const;
 };
 

@@ -15,9 +15,11 @@
 #include "Scene.h"
 
 
+Scene* Scene::instance;
 
 Scene::Scene()
 {
+	instance = this;
 	gameObjects = std::vector<GameObject*>();
 }
 

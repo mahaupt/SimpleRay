@@ -13,23 +13,21 @@
 // limitations under the License.
 
 #pragma once
-#include "Vector3.h"
-#include "Quaternion.h"
-
-class GameObject
+class Color
 {
-protected:
-	Vector3 position;
-	Vector3 scale;
-	Quaternion rotation;
-
+private:
+	unsigned char r, g, b;
 public:
-	GameObject();
-	GameObject(Vector3 _position);
-	~GameObject();
+	Color();
+	Color(unsigned char _r, unsigned char _g, unsigned char _b);
+	~Color();
 
 	//getters and setters
-	Vector3 getPosition() const { return position; }
-	void setPosition(Vector3 _position) { position = _position; }
+	unsigned char getR() { return r; }
+	unsigned char getG() { return g; }
+	unsigned char getB() { return b; }
+	void setR(unsigned char _r) { r = _r; }
+	void setG(unsigned char _g) { g = _g; }
+	void setB(unsigned char _b) { b = _b; }
 };
 

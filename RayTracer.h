@@ -13,23 +13,22 @@
 // limitations under the License.
 
 #pragma once
-#include "Vector3.h"
-#include "Quaternion.h"
+#include "Ray.h"
+#include "Color.h"
+#include "GameObject.h"
 
-class GameObject
+class RayTracer
 {
-protected:
-	Vector3 position;
-	Vector3 scale;
-	Quaternion rotation;
+private:
+	Ray ray;
+	Color color;
 
+	GameObject * getNearestHittingObject();
 public:
-	GameObject();
-	GameObject(Vector3 _position);
-	~GameObject();
+	RayTracer(Ray _ray);
+	~RayTracer();
 
-	//getters and setters
-	Vector3 getPosition() const { return position; }
-	void setPosition(Vector3 _position) { position = _position; }
+	bool startRay();
+	Color getColor() { return color; }
 };
 

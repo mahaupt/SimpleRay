@@ -34,14 +34,30 @@ Camera::~Camera()
 void Camera::renderToImage(std::string file) {
 	bitmap_image bitmap(width, height);
 
-	/*for (unsigned int x = 0; x < width; ++x)
+	double widestside = (width > height) ? width : height;
+
+	//create rays
+	for (unsigned int x = 0; x < width; ++x)
 	{
 		for (unsigned int y = 0; y < height; ++y)
 		{
-			rgb_store col = jet_colormap[(y) % height];
-			bitmap.set_pixel(x, y, col.red, col.green, col.blue);
+			//calculate ray angles
+			double rayanglex = -aof/width*(y- (double)height*0.5);
+			double rayangley = aof*(x / (double)width - 0.5);
+
+			//calculate ray direction from angles
+			Vector3 direction = Vector3(tan(rayanglex), tan(rayangley), 1);
+			Ray ray = Ray(position, direction);
+
+			//start raytracer and get color
+			RayTracer rt = RayTracer(ray);
+			rt.startRay();
+			Color color = rt.getColor();
+
+			//set pixel color
+			bitmap.set_pixel(x, y, color.getR(), color.getG(), color.getB());
 		}
-	}*/
+	}
 
 	bitmap.save_image(file);
 }

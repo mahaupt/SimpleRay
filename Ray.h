@@ -24,5 +24,14 @@ private:
 public:
 	Ray(const Vector3 & point, const Vector3 & direction);
 	~Ray();
+
+
+	//getters and setters
+	Vector3 getPoint() { return point; }
+	Vector3 getDirection() { return direction; }
+	void setPoint(Vector3 _point) { point = _point; }
+	void setDirection(Vector3 _dir) { direction = _dir; direction.normalize(); }
+
+	double getDistanceToPoint(Vector3 pt);
 };
 

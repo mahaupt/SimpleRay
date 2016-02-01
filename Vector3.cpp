@@ -50,3 +50,26 @@ Vector3 Vector3::operator* (double scalar) const {
 Vector3 Vector3::operator/ (double scalar) const {
 	return Vector3(x/scalar, y/scalar, z/scalar);
 }
+
+
+void Vector3::normalize() {
+	double length = magnitude();
+	x = x / length;
+	y = y / length;
+	z = z / length;
+}
+
+Vector3 & Vector3::normalized() const {
+	double length = magnitude();
+	return Vector3(x / length, y / length, z / length);
+}
+
+
+double Vector3::magnitude() const {
+	return sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
+}
+
+
+double Vector3::dot(const Vector3 & vec) const {
+	return (x*vec.getX() + y*vec.getY() + z*vec.getZ());
+}

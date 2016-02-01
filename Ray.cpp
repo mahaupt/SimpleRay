@@ -17,12 +17,26 @@
 
 
 
-Ray::Ray(const Vector3 & point, const Vector3 & direction)
+Ray::Ray(const Vector3 & _point, const Vector3 & _direction)
 {
-
+	point = _point;
+	direction = _direction;
+	direction.normalize();
 }
 
 
 Ray::~Ray()
 {
+}
+
+
+
+double Ray::getDistanceToPoint(Vector3 pt) {
+	Vector3 toPoint = pt - point;
+	double toPointDist = toPoint.magnitude();
+
+	double angle = acos(toPoint.dot(direction)/toPointDist);
+
+
+	return sin(angle)*toPointDist;
 }

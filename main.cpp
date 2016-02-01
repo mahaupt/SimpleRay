@@ -21,7 +21,7 @@ int main() {
 	//create scene
 	Scene myscene;
 	myscene.createSphere(1, Vector3(0, 0, 0));
-	Camera & cam = myscene.createCamera(Vector3(-5, 0, 0));
+	Camera & cam = myscene.createCamera(Vector3(0, 0, -5));
 
 	//render scene:
 	cam.renderToImage("image.bmp");

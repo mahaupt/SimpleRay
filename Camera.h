@@ -14,15 +14,19 @@
 
 
 #pragma once
+#include "bitmap_image.hpp"
 #include <string>
 #include "GameObject.h"
-#include "bitmap_image.hpp"
+#include "Ray.h"
+#include "RayTracer.h"
+#include "Color.h"
+
 
 class Camera :
 	public GameObject
 {
 private:
-	int width, height;
+	unsigned int width, height;
 	double aof;
 
 public:
