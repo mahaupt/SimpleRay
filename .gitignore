@@ -2,3 +2,6 @@ Debug/
 
 *.vcproj
 *.vcproj.filters
+*.vcxproj
+*.vcxproj.filters
+*.bmp

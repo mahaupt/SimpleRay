@@ -16,6 +16,8 @@
 #include <vector>
 #include "Vector3.h"
 #include "GameObject.h"
+#include "Camera.h"
+#include "Sphere.h"
 
 class Scene
 {
@@ -27,6 +29,7 @@ public:
 	~Scene();
 
 
-	void createSphere(double radius, Vector3 position);
+	Sphere & createSphere(double radius, Vector3 position);
+	Camera & createCamera(Vector3 position);
 };
 

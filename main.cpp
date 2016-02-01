@@ -12,13 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "bitmap.hpp"
+
 #include "Scene.h"
+
+
 int main() {
 
+	//create scene
 	Scene myscene;
 	myscene.createSphere(1, Vector3(0, 0, 0));
+	Camera & cam = myscene.createCamera(Vector3(-5, 0, 0));
 
+	//render scene:
+	cam.renderToImage("image.bmp");
 
-	return 1;
+	return 0;
 }

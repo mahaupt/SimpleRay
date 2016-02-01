@@ -39,6 +39,18 @@ Scene::~Scene()
 
 
 
-void Scene::createSphere(double radius, Vector3 position) {
-	//gameObjects.push_back();
+Sphere &  Scene::createSphere(double radius, Vector3 position) {
+	Sphere * sphere = new Sphere(position, radius);
+	gameObjects.push_back(sphere);
+
+	return (*sphere);
+}
+
+
+
+Camera & Scene::createCamera(Vector3 position) {
+	Camera * camera = new Camera(position, 1024, 768, 1);
+	gameObjects.push_back(camera);
+
+	return (*camera);
 }
