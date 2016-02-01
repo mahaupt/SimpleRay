@@ -1,7 +1,7 @@
 # SimpleRay
 Simple Geometric Raytracing Render Engine
 
-![alt text](http://s27.postimg.org/fv2q44gar/image.png "First render result")
+![alt text](http://s11.postimg.org/4pdu8r4bn/image.png "First render result")
 
 
 # External Sources:
