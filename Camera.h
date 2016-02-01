@@ -17,9 +17,7 @@
 #include "bitmap_image.hpp"
 #include <string>
 #include "GameObject.h"
-#include "Ray.h"
 #include "RayTracer.h"
-#include "Color.h"
 
 
 class Camera :

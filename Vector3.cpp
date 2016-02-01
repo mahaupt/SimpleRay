@@ -73,3 +73,61 @@ double Vector3::magnitude() const {
 double Vector3::dot(const Vector3 & vec) const {
 	return (x*vec.getX() + y*vec.getY() + z*vec.getZ());
 }
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+Ray::Ray(const Vector3 & _point, const Vector3 & _direction)
+{
+	point = _point;
+	direction = _direction;
+	direction.normalize();
+}
+
+
+Ray::~Ray()
+{
+}
+
+
+
+double Ray::getDistanceToPoint(Vector3 pt) const {
+	Vector3 toPoint = pt - point;
+	double toPointDist = toPoint.magnitude();
+
+	double angle = acos(toPoint.dot(direction) / toPointDist);
+
+
+	return sin(angle)*toPointDist;
+}
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+Color::Color()
+{
+	r = 0;
+	g = 0;
+	b = 0;
+}
+
+
+Color::Color(unsigned char _r, unsigned char _g, unsigned char _b) {
+	r = _r;
+	g = _g;
+	b = _b;
+}
+
+
+Color::~Color()
+{
+}

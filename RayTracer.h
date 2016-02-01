@@ -13,8 +13,6 @@
 // limitations under the License.
 
 #pragma once
-#include "Ray.h"
-#include "Color.h"
 #include "GameObject.h"
 
 class RayTracer
@@ -23,7 +21,12 @@ private:
 	Ray ray;
 	Color color;
 
-	GameObject * getNearestHittingObject();
+	HitPoint hitpoint;
+
+	GameObject * hittingObject;
+
+
+	bool calculateHitpoint();
 public:
 	RayTracer(Ray _ray);
 	~RayTracer();

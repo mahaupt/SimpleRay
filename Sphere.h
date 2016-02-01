@@ -28,5 +28,6 @@ public:
 	//getters and setters
 	double getRadius() const { return radius; }
 	void setRadius(double _radius) { radius = _radius; }
+	virtual bool rayCast(const Ray & ray, HitPoint & hit) const;
 };
 

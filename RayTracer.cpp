@@ -27,15 +27,29 @@ RayTracer::~RayTracer()
 }
 
 
-GameObject * RayTracer::getNearestHittingObject()
+bool RayTracer::calculateHitpoint()
 {
-	std::vector<GameObject*> * gameObjects = Scene::getInstance()->getGameObjects();
-	Sphere * sphere = (Sphere*)(*gameObjects)[0];
+	HitPoint hp;
+	double lastdist = 999999999;
+	bool hitted = false;
 
-	if (ray.getDistanceToPoint(sphere->getPosition()) <= sphere->getRadius()) {
-		return (*gameObjects)[0];
+	//get closest ray target
+	std::vector<GameObject*> * gameObjects = Scene::getInstance()->getGameObjects();
+	for (std::vector<GameObject*>::iterator it = gameObjects->begin(); it != gameObjects->end(); it++) {
+		if ((*it)->rayCast(ray, hp)) {
+			hitted = true;
+
+			//save closest hitpoint
+			double dist = (ray.getPoint() - hp.getPoint()).magnitude();
+			if (dist < lastdist) {
+				hitpoint = hp;
+				hittingObject = (*it);
+				lastdist = dist;
+			}
+		}
 	}
-	return 0;
+
+	return hitted;
 }
 
 
@@ -43,8 +57,9 @@ GameObject * RayTracer::getNearestHittingObject()
 bool RayTracer::startRay() 
 {
 	//get game object
-	GameObject * gameObject = getNearestHittingObject();
-	if (gameObject == 0) return false;
+	if (!calculateHitpoint()) {
+		return false;
+	}
 
 	//hitted game object - get color
 	color = Color(255, 255, 255);

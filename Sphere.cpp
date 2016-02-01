@@ -26,3 +26,23 @@ Sphere::Sphere(Vector3 _position, double _radius)
 Sphere::~Sphere()
 {
 }
+
+
+
+bool Sphere::rayCast(const Ray & ray, HitPoint & hit) const {
+	double distance = ray.getDistanceToPoint(position);
+
+	if (distance <= radius) {
+		
+		//calculate hitpoint
+		double objectdistance = (ray.getPoint() - position).magnitude();
+		double dtp = sqrt(pow(objectdistance, 2) - pow(distance, 2)) - sqrt(pow(radius, 2) - pow(distance, 2));
+		Vector3 hitpoint = ray.getPoint() + ray.getDirection()*dtp;
+		Vector3 normal = hitpoint - position;
+		normal.normalize();
+
+		hit = HitPoint(hitpoint, normal);
+		return true;
+	}
+	return false;
+}

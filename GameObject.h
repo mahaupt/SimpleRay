@@ -31,5 +31,6 @@ public:
 	//getters and setters
 	Vector3 getPosition() const { return position; }
 	void setPosition(Vector3 _position) { position = _position; }
+	virtual bool rayCast(const Ray & ray, HitPoint & hit) const { return false; }
 };
 

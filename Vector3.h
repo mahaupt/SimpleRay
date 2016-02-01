@@ -49,3 +49,75 @@ public:
 	double dot(const Vector3 & vec) const;
 };
 
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+class HitPoint
+{
+private:
+	Vector3 point;
+	Vector3 normal;
+
+public:
+	HitPoint() {};
+	HitPoint(Vector3 _point, Vector3 _normal): point(_point), normal(_normal) {};
+	~HitPoint() {};
+
+	Vector3 getPoint() { return point; }
+	Vector3 getNornal() { return normal; }
+	void setPoint(Vector3 _point) { point = _point; }
+	void setNormal(Vector3 _normal) { normal = _normal; }
+};
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+class Ray
+{
+private:
+	Vector3 point;
+	Vector3 direction;
+
+public:
+	Ray(const Vector3 & point, const Vector3 & direction);
+	~Ray();
+
+
+	//getters and setters
+	Vector3 getPoint() const { return point; }
+	Vector3 getDirection() const { return direction; }
+	void setPoint(Vector3 _point) { point = _point; }
+	void setDirection(Vector3 _dir) { direction = _dir; direction.normalize(); }
+
+	double getDistanceToPoint(Vector3 pt) const;
+};
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+class Color
+{
+private:
+	unsigned char r, g, b;
+public:
+	Color();
+	Color(unsigned char _r, unsigned char _g, unsigned char _b);
+	~Color();
+
+	//getters and setters
+	unsigned char getR() { return r; }
+	unsigned char getG() { return g; }
+	unsigned char getB() { return b; }
+	void setR(unsigned char _r) { r = _r; }
+	void setG(unsigned char _g) { g = _g; }
+	void setB(unsigned char _b) { b = _b; }
+};
