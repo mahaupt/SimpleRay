@@ -114,10 +114,16 @@ public:
 	~Color();
 
 	//getters and setters
-	unsigned char getR() { return r; }
-	unsigned char getG() { return g; }
-	unsigned char getB() { return b; }
+	unsigned char getR() const { return r; }
+	unsigned char getG() const { return g; }
+	unsigned char getB() const { return b; }
 	void setR(unsigned char _r) { r = _r; }
 	void setG(unsigned char _g) { g = _g; }
 	void setB(unsigned char _b) { b = _b; }
+
+
+	//operators
+	Color operator+ (const Color & vector) const;
+	Color operator- (const Color & vector) const;
+	Color operator* (double scalar) const;
 };

@@ -62,6 +62,17 @@ bool RayTracer::startRay()
 	}
 
 	//hitted game object - get color
-	color = Color(255, 255, 255);
+	Color ambient = Color(20, 20, 20);
+	Color material = Color(200, 100, 100);
+	
+
+	Vector3 lightdir = Vector3(1, -1, -1);
+	lightdir.normalize();
+
+	double matfac = hitpoint.getNornal().dot(lightdir);
+	if (matfac < 0) matfac = 0;
+
+	color = ambient + material * matfac;
+
 	return true;
 }

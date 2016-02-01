@@ -131,3 +131,16 @@ Color::Color(unsigned char _r, unsigned char _g, unsigned char _b) {
 Color::~Color()
 {
 }
+
+
+Color Color::operator+ (const Color & col) const {
+	return Color(r + col.getR(), g + col.getG(), b + col.getB());
+}
+
+Color Color::operator- (const Color & col) const {
+	return Color(r - col.getR(), g - col.getG(), b - col.getB());
+}
+
+Color Color::operator* (double scalar) const {
+	return Color(r*scalar, g*scalar, b*scalar);
+}
