@@ -28,3 +28,25 @@ Vector3::Vector3(const Vector3 & vector) {
 	y = vector.getY();
 	z = vector.getZ();
 }
+
+
+
+Vector3 Vector3::operator+ (const Vector3 & vector) const {
+	return Vector3(x + vector.getX(), y + vector.getY(), z + vector.getZ());
+}
+
+Vector3 Vector3::operator- (const Vector3 & vector) const {
+	return Vector3(x - vector.getX(), y - vector.getY(), z - vector.getZ());
+}
+
+Vector3 Vector3::operator* (const Vector3 & vector) const {
+	return Vector3(y*vector.getZ() - z*vector.getY(), z*vector.getX() - x*vector.getZ(), x*vector.getY() - y*vector.getX());
+}
+
+Vector3 Vector3::operator* (double scalar) const {
+	return Vector3(x*scalar, y*scalar, z*scalar);
+}
+
+Vector3 Vector3::operator/ (double scalar) const {
+	return Vector3(x/scalar, y/scalar, z/scalar);
+}
