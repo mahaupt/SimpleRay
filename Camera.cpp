@@ -140,8 +140,8 @@ FrameBuffer::~FrameBuffer() {
 
 void FrameBuffer::set_pixel(unsigned int x, unsigned int y, unsigned char r, unsigned char g, unsigned char b) {
 	if (x < width && y < height) {
-		frameBuffer[x + y * width].r = r;
-		frameBuffer[x + y * width].g = g;
-		frameBuffer[x + y * width].b = b;
+		frameBuffer[x + (height-y-1) * width].r = r;
+		frameBuffer[x + (height-y-1) * width].g = g;
+		frameBuffer[x + (height-y-1) * width].b = b;
 	}
 }
