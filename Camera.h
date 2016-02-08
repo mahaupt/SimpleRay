@@ -22,6 +22,8 @@
 #include "RayTracer.h"
 
 
+class FrameBuffer;
+
 class Camera :
 	public GameObject
 {
@@ -34,10 +36,34 @@ public:
 	~Camera();
 
 	void renderToImage(std::string file);
-	static void Camera::renderThread(Camera * camera, bitmap_image * bitmap, unsigned int tid, unsigned int threadNumber);
+	void renderToFB(FrameBuffer * framebuffer);
+	static void Camera::renderThreadImage(Camera * camera, bitmap_image * bitmap, unsigned int tid, unsigned int threadNumber);
+	static void Camera::renderThreadFB(Camera * camera, FrameBuffer * bitmap, unsigned int tid, unsigned int threadNumber);
 
 	unsigned int getWidth() const { return width; }
 	unsigned int getHeight() const { return height; }
 	double getAOF() const { return aof; }
 };
 
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+class FrameBuffer
+{
+	struct FB { unsigned char r, g, b; };
+private:
+	FB * frameBuffer;
+	unsigned int width, height;
+
+public:
+	FrameBuffer(unsigned int _width, unsigned int _height);
+	~FrameBuffer();
+
+	void * getData() { return frameBuffer; }
+	unsigned int getWidth() { return width; }
+	unsigned int getHeight() { return height; }
+	void set_pixel(unsigned int x, unsigned int y, unsigned char r, unsigned char g, unsigned char b);
+};

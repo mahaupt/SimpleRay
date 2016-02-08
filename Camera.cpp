@@ -39,7 +39,7 @@ void Camera::renderToImage(std::string file) {
 	//create 4 threads
 	std::vector<std::thread> threadlist = std::vector<std::thread>();
 	for (int i = 0; i < nthreads; i++) {
-		threadlist.push_back(std::thread(renderThread, this, &bitmap, i, nthreads));
+		threadlist.push_back(std::thread(renderThreadImage, this, &bitmap, i, nthreads));
 	}
 	
 
@@ -53,7 +53,24 @@ void Camera::renderToImage(std::string file) {
 }
 
 
-void Camera::renderThread(Camera * camera, bitmap_image * bitmap, unsigned int tid, unsigned int threadNumber) {
+void Camera::renderToFB(FrameBuffer * framebuffer) {
+	unsigned int nthreads = 1;
+
+	//create 4 threads
+	std::vector<std::thread> threadlist = std::vector<std::thread>();
+	for (int i = 0; i < nthreads; i++) {
+		threadlist.push_back(std::thread(renderThreadFB, this, framebuffer, i, nthreads));
+	}
+
+
+	//join the threads
+	for (std::vector<std::thread>::iterator it = threadlist.begin(); it != threadlist.end(); it++) {
+		(*it).join();
+	}
+}
+
+
+void Camera::renderThreadImage(Camera * camera, bitmap_image * bitmap, unsigned int tid, unsigned int threadNumber) {
 	//create rays
 	for (unsigned int x = tid; x < camera->getWidth(); x+=threadNumber)
 	{
@@ -75,5 +92,56 @@ void Camera::renderThread(Camera * camera, bitmap_image * bitmap, unsigned int t
 			//set pixel color
 			bitmap->set_pixel(x, y, color.getR(), color.getG(), color.getB());
 		}
+	}
+}
+
+
+
+void Camera::renderThreadFB(Camera * camera, FrameBuffer * bitmap, unsigned int tid, unsigned int threadNumber) {
+	//create rays
+	for (unsigned int x = tid; x < camera->getWidth(); x += threadNumber)
+	{
+		for (unsigned int y = 0; y < camera->getHeight(); ++y)
+		{
+			//calculate ray angles
+			double rayanglex = -camera->getAOF() / camera->getWidth()*(y - (double)camera->getHeight()*0.5);
+			double rayangley = camera->getAOF()*(x / (double)camera->getWidth() - 0.5);
+
+			//calculate ray direction from angles
+			Vector3 direction = Vector3(tan(rayanglex), tan(rayangley), 1);
+			Ray ray = Ray(camera->getPosition(), direction);
+
+			//start raytracer and get color
+			RayTracer rt = RayTracer(ray);
+			rt.startRay();
+			Color color = rt.getColor();
+
+			//set pixel color
+			bitmap->set_pixel(x, y, color.getR(), color.getG(), color.getB());
+		}
+	}
+}
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+FrameBuffer::FrameBuffer(unsigned int _width, unsigned int _height) {
+	width = _width;
+	height = _height;
+
+	frameBuffer = new FB[width * height];
+}
+
+
+FrameBuffer::~FrameBuffer() {
+	delete frameBuffer;
+}
+
+
+void FrameBuffer::set_pixel(unsigned int x, unsigned int y, unsigned char r, unsigned char g, unsigned char b) {
+	if (x < width && y < height) {
+		frameBuffer[x + y * width].r = r;
+		frameBuffer[x + y * width].g = g;
+		frameBuffer[x + y * width].b = b;
 	}
 }

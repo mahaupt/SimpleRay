@@ -17,7 +17,9 @@
 
 
 
-LightSource::LightSource()
+LightSource::LightSource() :
+	color(255, 255, 255),
+	intensity(1)
 {
 }
 
