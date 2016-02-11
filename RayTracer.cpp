@@ -37,14 +37,14 @@ bool RayTracer::calculateHitpoint()
 	std::vector<GameObject*> * gameObjects = Scene::getInstance()->getGameObjects();
 	for (std::vector<GameObject*>::iterator it = gameObjects->begin(); it != gameObjects->end(); it++) {
 		if ((*it)->rayCast(ray, hp)) {
-			hitted = true;
-
 			//save closest hitpoint
 			double dist = (ray.getPoint() - hp.getPoint()).magnitude();
+			//double dir = (hp.getPoint() - ray.getPoint()).dot(ray.getDirection()); && dir > 0
 			if (dist < lastdist) {
 				hitpoint = hp;
 				hittingObject = (*it);
 				lastdist = dist;
+				hitted = true;
 			}
 		}
 	}
@@ -61,18 +61,31 @@ bool RayTracer::startRay()
 		return false;
 	}
 
-	//hitted game object - get color
-	Color ambient = Color(20, 20, 20);
-	Color material = Color(200, 100, 100);
-	
-
-	Vector3 lightdir = Vector3(1, -1, -1);
-	lightdir.normalize();
-
-	double matfac = hitpoint.getNornal().dot(lightdir);
-	if (matfac < 0) matfac = 0;
-
-	color = ambient + material * matfac;
-
 	return true;
+}
+
+
+void RayTracer::doLightCalculations() {
+	//hitted game object - get color
+	Color ambient = Color(20, 10, 10);
+	Color diffuse = Color(200, 100, 100);
+	double diffuse_light = 0;
+
+	//cycle through lights
+	std::vector<LightSource*> * lightSources = Scene::getInstance()->getLightSources();
+	for (std::vector<LightSource*>::iterator it = lightSources->begin(); it != lightSources->end(); it++) {
+
+		//shoot ray to light
+		Vector3 direction = (*it)->getDirToLight(hitpoint.getPoint());
+		Ray rtray = Ray(hitpoint.getPoint(), direction); // + direction * 1
+		RayTracer rt = RayTracer(rtray); 
+
+		//on hit - do light calculations
+		if (!rt.startRay()) {
+			LightSetting ls = (*it)->getLightSetting(hitpoint.getPoint(), hitpoint.getNormal());
+			diffuse_light += ls.diffuse;
+		}
+	}
+
+	color = ambient + diffuse * diffuse_light;
 }

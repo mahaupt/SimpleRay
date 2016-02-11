@@ -27,3 +27,66 @@ LightSource::LightSource() :
 LightSource::~LightSource()
 {
 }
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+Pointlight::Pointlight(Color _color, Vector3 _position, double _intensity, double _falloff) {
+	color = _color;
+	intensity = _intensity;
+	falloff = _falloff;
+	position = _position;
+}
+
+
+LightSetting Pointlight::getLightSetting(Vector3 point, Vector3 normal) {
+	LightSetting setting = LightSetting();
+
+	Vector3 direction = point - position;
+	double distance = direction.magnitude();
+	direction.normalize();
+
+	//diffuse
+	setting.diffuse = -direction.dot(normal);
+	if (setting.diffuse < 0)
+		setting.diffuse = 0;
+
+	setting.diffuse /= pow(distance, falloff);
+	setting.diffuse *= intensity;
+
+	//specular
+
+	return setting;
+}
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+Directionlight::Directionlight(Color _color, Vector3 _direction, double _intensity)
+{
+	color = _color;
+	intensity = _intensity;
+	direction = _direction.normalized();
+}
+
+
+LightSetting Directionlight::getLightSetting(Vector3 point, Vector3 normal) {
+	LightSetting setting = LightSetting();
+
+	//diffuse
+	setting.diffuse = - normal.dot(direction);
+	if (setting.diffuse < 0)
+		setting.diffuse = 0;
+
+	setting.diffuse *= intensity;
+
+	//specular
+
+	return setting;
+}

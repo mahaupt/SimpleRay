@@ -86,7 +86,8 @@ void Camera::renderThreadImage(Camera * camera, bitmap_image * bitmap, unsigned 
 
 			//start raytracer and get color
 			RayTracer rt = RayTracer(ray);
-			rt.startRay();
+			if (rt.startRay())
+				rt.doLightCalculations();
 			Color color = rt.getColor();
 
 			//set pixel color
@@ -113,7 +114,8 @@ void Camera::renderThreadFB(Camera * camera, FrameBuffer * bitmap, unsigned int 
 
 			//start raytracer and get color
 			RayTracer rt = RayTracer(ray);
-			rt.startRay();
+			if (rt.startRay())
+				rt.doLightCalculations();
 			Color color = rt.getColor();
 
 			//set pixel color

@@ -59,7 +59,7 @@ void Vector3::normalize() {
 	z = z / length;
 }
 
-Vector3 & Vector3::normalized() const {
+Vector3 Vector3::normalized() const {
 	double length = magnitude();
 	return Vector3(x / length, y / length, z / length);
 }
@@ -72,6 +72,11 @@ double Vector3::magnitude() const {
 
 double Vector3::dot(const Vector3 & vec) const {
 	return (x*vec.getX() + y*vec.getY() + z*vec.getZ());
+}
+
+
+Vector3 Vector3::inverse() const {
+	return Vector3(-x, -y, -z);
 }
 
 
@@ -101,7 +106,10 @@ double Ray::getDistanceToPoint(Vector3 pt) const {
 	Vector3 toPoint = pt - point;
 	double toPointDist = toPoint.magnitude();
 
-	double angle = acos(toPoint.dot(direction) / toPointDist);
+	double dotp = toPoint.dot(direction);
+	if (dotp < 0) return 9999999;
+
+	double angle = acos( dotp / toPointDist);
 
 
 	return sin(angle)*toPointDist;

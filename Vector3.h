@@ -44,9 +44,10 @@ public:
 	Vector3 operator/ (double scalar) const;
 
 	void normalize();
-	Vector3 & normalized() const;
+	Vector3 normalized() const;
 	double magnitude() const;
 	double dot(const Vector3 & vec) const;
+	Vector3 inverse() const;
 };
 
 
@@ -69,7 +70,7 @@ public:
 	~HitPoint() {};
 
 	Vector3 getPoint() { return point; }
-	Vector3 getNornal() { return normal; }
+	Vector3 getNormal() { return normal; }
 	void setPoint(Vector3 _point) { point = _point; }
 	void setNormal(Vector3 _normal) { normal = _normal; }
 };

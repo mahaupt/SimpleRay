@@ -16,6 +16,17 @@
 #include "GameObject.h"
 #include "Vector3.h"
 
+
+struct LightSetting {
+	double diffuse, specular;
+
+	LightSetting(): 
+		diffuse(0), 
+		specular(0) 
+	{}
+};
+
+
 class LightSource :
 	public GameObject
 {
@@ -25,6 +36,11 @@ protected:
 public:
 	LightSource();
 	~LightSource();
+
+	virtual LightSetting getLightSetting(Vector3 point, Vector3 normal) { return LightSetting(); }
+	virtual Vector3 getDirToLight(Vector3 point) { return position - point; }
+	Color getColor() { return color; }
+	double getIntensity() { return intensity; }
 };
 
 
@@ -36,6 +52,27 @@ class Pointlight :
 {
 private:
 	double falloff;
+
+public:
+	Pointlight(Color _color, Vector3 _position, double _intensity, double _falloff);
+	virtual LightSetting getLightSetting(Vector3 point, Vector3 normal);
+};
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+class Directionlight :
+	public LightSource
+{
+private:
+	Vector3 direction;
+
+public:
+	Directionlight(Color _color, Vector3 direction, double intensity);
+	virtual LightSetting getLightSetting(Vector3 point, Vector3 normal);
+	virtual Vector3 getDirToLight(Vector3 point) { return direction.inverse(); }
 };
 
 

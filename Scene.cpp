@@ -21,6 +21,7 @@ Scene::Scene()
 {
 	instance = this;
 	gameObjects = std::vector<GameObject*>();
+	lightSources = std::vector<LightSource*>();
 }
 
 
@@ -55,4 +56,12 @@ Camera & Scene::createCamera(Vector3 position) {
 	gameObjects.push_back(camera);
 
 	return (*camera);
+}
+
+
+
+
+void Scene::createLightSource(LightSource * lightsource) {
+	gameObjects.push_back(lightsource);
+	lightSources.push_back(lightsource);
 }

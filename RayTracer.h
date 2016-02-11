@@ -32,6 +32,7 @@ public:
 	~RayTracer();
 
 	bool startRay();
+	void doLightCalculations();
 	Color getColor() { return color; }
 };
 

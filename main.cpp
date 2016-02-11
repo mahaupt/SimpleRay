@@ -36,15 +36,16 @@ int main() {
 	myscene.createSphere(0.5, Vector3(0, 2, 0));
 	myscene.createSphere(0.5, Vector3(2, 0, 0));
 	myscene.createSphere(0.5, Vector3(-2, 0, 0));
-	Camera & cam = myscene.createCamera(Vector3(0, 0, -5));
+	myscene.createLightSource(new Pointlight(Color(255, 255, 255), Vector3(4, 2, -1), 2, 1));
+	Camera & cam = myscene.createCamera(Vector3(0, 0, -10));
 
 	//start rendering scene:
-	//cam.renderToImage("image.bmp");
-	FrameBuffer frameBuffer = FrameBuffer(1024, 768);
+	cam.renderToImage("image.bmp");
+	/*FrameBuffer frameBuffer = FrameBuffer(1024, 768);
 	//cam.renderToFB(&frameBuffer);
 
-	std::thread t1 = std::thread(Camera::renderThreadFB, &cam, &frameBuffer, 0, 1);
-	//std::thread t2 = std::thread(Camera::renderThreadFB, &cam, &frameBuffer, 1, 2);
+	std::thread t1 = std::thread(Camera::renderThreadFB, &cam, &frameBuffer, 0, 2);
+	std::thread t2 = std::thread(Camera::renderThreadFB, &cam, &frameBuffer, 1, 2);
 
 	do {
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f); //clear background screen to black
@@ -60,7 +61,7 @@ int main() {
 		glfwWindowShouldClose(window) == 0);
 
 	t1.join();
-	//t2.join();
+	t2.join();*/
 
 	return 0;
 }
@@ -80,7 +81,7 @@ int initGL() {
 
 	window = glfwCreateWindow(1024, 768, "SimpleRay Output", NULL, NULL);
 	if (window == NULL) {
-		std::cerr << "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n";
+		std::cerr << "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible.\n";
 		glfwTerminate();
 		return 2;
 	}

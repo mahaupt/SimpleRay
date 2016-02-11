@@ -16,6 +16,7 @@
 #include <vector>
 #include "Vector3.h"
 #include "GameObject.h"
+#include "LightSource.h"
 #include "Camera.h"
 #include "Sphere.h"
 
@@ -24,6 +25,7 @@ class Scene
 private:
 	static Scene* instance;
 	std::vector<GameObject*> gameObjects;
+	std::vector<LightSource*> lightSources;
 
 public:
 	Scene();
@@ -31,12 +33,17 @@ public:
 
 	Sphere & createSphere(double radius, Vector3 position);
 	Camera & createCamera(Vector3 position);
+	void createLightSource(LightSource * lightsource);
 	
 
 	//sets and gets
 	std::vector<GameObject*>* getGameObjects() {
 		return &gameObjects;
 	}
+	std::vector<LightSource*>* getLightSources() {
+		return &lightSources;
+	}
+
 	static Scene* getInstance() { return instance; }
 };
 
