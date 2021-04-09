@@ -14,81 +14,85 @@
 
 #pragma comment(lib, "glfw3.lib")
 #pragma comment(lib, "OpenGL32.lib")
-#include <gl/glfw3.h>
+#include <GLFW/glfw3.h>
+
 #include <iostream>
 
 #include "Scene.h"
 
-
 int initGL();
 GLFWwindow* window;
 
-
-
 int main() {
-	//init opengl
-	initGL();
+  // init opengl
+  initGL();
 
-	//create scene
-	Scene myscene;
-	myscene.createSphere(1, Vector3(0, 0, 0));
-	myscene.createSphere(0.5, Vector3(0, -2, 0));
-	myscene.createSphere(0.5, Vector3(0, 2, 0));
-	myscene.createSphere(0.5, Vector3(2, 0, 0));
-	myscene.createSphere(0.5, Vector3(-2, 0, 0));
-	myscene.createLightSource(new Pointlight(Color(255, 255, 255), Vector3(4, 2, -1), 2, 1));
-	Camera & cam = myscene.createCamera(Vector3(0, 0, -10));
+  // create scene
+  Scene myscene;
+  myscene.createSphere(1, Vector3(0, 0, 0));
+  myscene.createSphere(0.5, Vector3(0, -2, 0));
+  myscene.createSphere(0.5, Vector3(0, 2, 0));
+  myscene.createSphere(0.5, Vector3(2, 0, 0));
+  myscene.createSphere(0.5, Vector3(-2, 0, 0));
+  myscene.createLightSource(
+      new Pointlight(Color(255, 255, 255), Vector3(4, 2, -1), 2, 1));
+  /*myscene.createLightSource(
+      new Pointlight(Color(255, 255, 255), Vector3(4, -2, 1), 1, 1));*/
+  myscene.createLightSource(
+      new Pointlight(Color(255, 255, 255), Vector3(1, 5, 0), 1, 1));
+  Camera& cam = myscene.createCamera(Vector3(0, 0, -10));
 
-	//start rendering scene:
-	cam.renderToImage("image.bmp");
-	/*FrameBuffer frameBuffer = FrameBuffer(1024, 768);
-	//cam.renderToFB(&frameBuffer);
+  // start rendering scene:
+  cam.renderToImage("image.bmp");
+  /*FrameBuffer frameBuffer = FrameBuffer(1024, 768);
+  //cam.renderToFB(&frameBuffer);
 
-	std::thread t1 = std::thread(Camera::renderThreadFB, &cam, &frameBuffer, 0, 2);
-	std::thread t2 = std::thread(Camera::renderThreadFB, &cam, &frameBuffer, 1, 2);
+  std::thread t1 = std::thread(Camera::renderThreadFB, &cam, &frameBuffer, 0,
+  2); std::thread t2 = std::thread(Camera::renderThreadFB, &cam, &frameBuffer,
+  1, 2);
 
-	do {
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f); //clear background screen to black
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glDrawPixels(frameBuffer.getWidth(), frameBuffer.getHeight(), GL_RGB, GL_UNSIGNED_BYTE, frameBuffer.getData());
+  do {
+          glClearColor(0.0f, 0.0f, 0.0f, 0.0f); //clear background screen to
+  black glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+          glDrawPixels(frameBuffer.getWidth(), frameBuffer.getHeight(), GL_RGB,
+  GL_UNSIGNED_BYTE, frameBuffer.getData());
 
 
-		// Swap buffers
-		glfwSwapBuffers(window);
-		glfwPollEvents();
-	} // Check if the ESC key was pressed or the window was closed
-	while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
-		glfwWindowShouldClose(window) == 0);
+          // Swap buffers
+          glfwSwapBuffers(window);
+          glfwPollEvents();
+  } // Check if the ESC key was pressed or the window was closed
+  while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
+          glfwWindowShouldClose(window) == 0);
 
-	t1.join();
-	t2.join();*/
+  t1.join();
+  t2.join();*/
 
-	return 0;
+  return 0;
 }
 
-
-
 int initGL() {
-	// Initialise GLFW
+  // Initialise GLFW
 
-	if (!glfwInit())
+  if (!glfwInit())
 
-	{
-		std::cerr << "Failed to initialize GLFW\n";
-		return 1;
-	}
-	glEnable(GL_DEPTH_TEST);
+  {
+    std::cerr << "Failed to initialize GLFW\n";
+    return 1;
+  }
+  glEnable(GL_DEPTH_TEST);
 
-	window = glfwCreateWindow(1024, 768, "SimpleRay Output", NULL, NULL);
-	if (window == NULL) {
-		std::cerr << "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible.\n";
-		glfwTerminate();
-		return 2;
-	}
-	glfwMakeContextCurrent(window);
-	
-	// Ensure we can capture the escape key being pressed below
-	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
+  window = glfwCreateWindow(1024, 768, "SimpleRay Output", NULL, NULL);
+  if (window == NULL) {
+    std::cerr << "Failed to open GLFW window. If you have an Intel GPU, they "
+                 "are not 3.3 compatible.\n";
+    glfwTerminate();
+    return 2;
+  }
+  glfwMakeContextCurrent(window);
 
-	return 0;
+  // Ensure we can capture the escape key being pressed below
+  glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
+
+  return 0;
 }

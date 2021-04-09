@@ -12,58 +12,56 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 #pragma once
-#include "bitmap_image.hpp"
 #include <string>
 #include <thread>
 #include <vector>
+
 #include "GameObject.h"
 #include "RayTracer.h"
-
+#include "bitmap_image.hpp"
 
 class FrameBuffer;
 
-class Camera :
-	public GameObject
-{
-private:
-	unsigned int width, height;
-	double aof;
+class Camera : public GameObject {
+ private:
+  unsigned int width, height;
+  double aof;
 
-public:
-	Camera(Vector3 _position, int _width, int _height, double _aof);
-	~Camera();
+ public:
+  Camera(Vector3 _position, int _width, int _height, double _aof);
+  ~Camera();
 
-	void renderToImage(std::string file);
-	void renderToFB(FrameBuffer * framebuffer);
-	static void Camera::renderThreadImage(Camera * camera, bitmap_image * bitmap, unsigned int tid, unsigned int threadNumber);
-	static void Camera::renderThreadFB(Camera * camera, FrameBuffer * bitmap, unsigned int tid, unsigned int threadNumber);
+  void renderToImage(std::string file);
+  void renderToFB(FrameBuffer* framebuffer);
+  static void renderThreadImage(Camera* camera, bitmap_image* bitmap,
+                                unsigned int tid, unsigned int threadNumber);
+  static void renderThreadFB(Camera* camera, FrameBuffer* bitmap,
+                             unsigned int tid, unsigned int threadNumber);
 
-	unsigned int getWidth() const { return width; }
-	unsigned int getHeight() const { return height; }
-	double getAOF() const { return aof; }
+  unsigned int getWidth() const { return width; }
+  unsigned int getHeight() const { return height; }
+  double getAOF() const { return aof; }
 };
-
-
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
+class FrameBuffer {
+  struct FB {
+    unsigned char r, g, b;
+  };
 
+ private:
+  FB* frameBuffer;
+  unsigned int width, height;
 
-class FrameBuffer
-{
-	struct FB { unsigned char r, g, b; };
-private:
-	FB * frameBuffer;
-	unsigned int width, height;
+ public:
+  FrameBuffer(unsigned int _width, unsigned int _height);
+  ~FrameBuffer();
 
-public:
-	FrameBuffer(unsigned int _width, unsigned int _height);
-	~FrameBuffer();
-
-	void * getData() { return frameBuffer; }
-	unsigned int getWidth() { return width; }
-	unsigned int getHeight() { return height; }
-	void set_pixel(unsigned int x, unsigned int y, unsigned char r, unsigned char g, unsigned char b);
+  void* getData() { return frameBuffer; }
+  unsigned int getWidth() { return width; }
+  unsigned int getHeight() { return height; }
+  void set_pixel(unsigned int x, unsigned int y, unsigned char r,
+                 unsigned char g, unsigned char b);
 };

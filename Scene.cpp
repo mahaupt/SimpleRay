@@ -14,54 +14,42 @@
 
 #include "Scene.h"
 
-
 Scene* Scene::instance;
 
-Scene::Scene()
-{
-	instance = this;
-	gameObjects = std::vector<GameObject*>();
-	lightSources = std::vector<LightSource*>();
+Scene::Scene() {
+  instance = this;
+  gameObjects = std::vector<GameObject*>();
+  lightSources = std::vector<LightSource*>();
 }
 
-
-
-Scene::~Scene()
-{
-	//destroy all game objects
-	for (std::vector<GameObject*>::iterator it = gameObjects.begin(); it != gameObjects.end(); it++) {
-		if ((*it) != 0) {
-			delete (*it);
-			(*it) = 0;
-		}
-	}
-	//clear container
-	gameObjects.clear();
+Scene::~Scene() {
+  // destroy all game objects
+  for (std::vector<GameObject*>::iterator it = gameObjects.begin();
+       it != gameObjects.end(); it++) {
+    if ((*it) != 0) {
+      delete (*it);
+      (*it) = 0;
+    }
+  }
+  // clear container
+  gameObjects.clear();
 }
 
+Sphere& Scene::createSphere(double radius, Vector3 position) {
+  Sphere* sphere = new Sphere(position, radius);
+  gameObjects.push_back(sphere);
 
-
-
-Sphere &  Scene::createSphere(double radius, Vector3 position) {
-	Sphere * sphere = new Sphere(position, radius);
-	gameObjects.push_back(sphere);
-
-	return (*sphere);
+  return (*sphere);
 }
 
+Camera& Scene::createCamera(Vector3 position) {
+  Camera* camera = new Camera(position, 2440, 1440, 1);
+  gameObjects.push_back(camera);
 
-
-Camera & Scene::createCamera(Vector3 position) {
-	Camera * camera = new Camera(position, 1024, 768, 1);
-	gameObjects.push_back(camera);
-
-	return (*camera);
+  return (*camera);
 }
 
-
-
-
-void Scene::createLightSource(LightSource * lightsource) {
-	gameObjects.push_back(lightsource);
-	lightSources.push_back(lightsource);
+void Scene::createLightSource(LightSource* lightsource) {
+  gameObjects.push_back(lightsource);
+  lightSources.push_back(lightsource);
 }
