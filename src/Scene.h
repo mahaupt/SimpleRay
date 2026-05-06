@@ -18,6 +18,7 @@
 #include "GameObject.h"
 #include "LightSource.h"
 #include "Camera.h"
+#include "Cube.h"
 #include "Sphere.h"
 
 class Scene
@@ -32,7 +33,9 @@ public:
 	~Scene();
 
 	Sphere & createSphere(double radius, Vector3 position);
-	Camera & createCamera(Vector3 position);
+	Cube & createCube(double size, Vector3 position);
+	Camera & createCamera(Vector3 position, unsigned int width = 1024,
+	                      unsigned int height = 768, double aof = 1.0);
 	void createLightSource(LightSource * lightsource);
 	
 

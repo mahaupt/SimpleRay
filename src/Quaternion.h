@@ -13,18 +13,29 @@
 // limitations under the License.
 
 #pragma once
-class Quaternion
-{
-private:
-	double x, y, z, w;
-public:
-	Quaternion();
-	~Quaternion();
 
-	//getters and setters
-	double getX() const { return x; }
-	double getY() const { return y; }
-	double getZ() const { return z; }
-	double getW() const { return w; }
+#include "Vector3.h"
+
+class Quaternion {
+ private:
+  double x, y, z, w;
+
+ public:
+  Quaternion();
+  Quaternion(double x, double y, double z, double w);
+  ~Quaternion();
+
+  static Quaternion fromAxisAngle(const Vector3& axis, double angle);
+
+  Quaternion conjugate() const;
+  Quaternion normalized() const;
+  Quaternion operator*(const Quaternion& quat) const;
+  Vector3 rotate(const Vector3& vec) const;
+
+  //getters and setters
+  double getX() const { return x; }
+  double getY() const { return y; }
+  double getZ() const { return z; }
+  double getW() const { return w; }
 };
 

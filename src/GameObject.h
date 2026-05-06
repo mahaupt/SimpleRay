@@ -26,11 +26,13 @@ protected:
 public:
 	GameObject();
 	GameObject(Vector3 _position);
-	~GameObject();
+	virtual ~GameObject();
 
 	//getters and setters
 	Vector3 getPosition() const { return position; }
 	void setPosition(Vector3 _position) { position = _position; }
+	Quaternion getRotation() const { return rotation; }
+	void setRotation(Quaternion _rotation) { rotation = _rotation; }
 	virtual bool rayCast(const Ray & ray, HitPoint & hit) const { return false; }
 };
 

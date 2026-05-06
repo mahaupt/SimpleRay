@@ -17,7 +17,8 @@
 
 
 RayTracer::RayTracer(Ray _ray) :
-	ray(_ray)
+	ray(_ray),
+	hittingObject(0)
 {
 }
 
@@ -27,7 +28,7 @@ RayTracer::~RayTracer()
 }
 
 
-bool RayTracer::calculateHitpoint()
+bool RayTracer::calculateHitpoint(GameObject * ignoredObject, double maxDistance)
 {
 	HitPoint hp;
 	double lastdist = 999999999;
@@ -36,9 +37,18 @@ bool RayTracer::calculateHitpoint()
 	//get closest ray target
 	std::vector<GameObject*> * gameObjects = Scene::getInstance()->getGameObjects();
 	for (std::vector<GameObject*>::iterator it = gameObjects->begin(); it != gameObjects->end(); it++) {
+		if ((*it) == ignoredObject) {
+			continue;
+		}
 		if ((*it)->rayCast(ray, hp)) {
 			//save closest hitpoint
 			double dist = (ray.getPoint() - hp.getPoint()).magnitude();
+			if (dist <= 1e-6) {
+				continue;
+			}
+			if (maxDistance > 0 && dist >= maxDistance) {
+				continue;
+			}
 			//double dir = (hp.getPoint() - ray.getPoint()).dot(ray.getDirection()); && dir > 0
 			if (dist < lastdist) {
 				hitpoint = hp;
@@ -54,10 +64,10 @@ bool RayTracer::calculateHitpoint()
 
 
 
-bool RayTracer::startRay() 
+bool RayTracer::startRay(GameObject * ignoredObject, double maxDistance) 
 {
 	//get game object
-	if (!calculateHitpoint()) {
+	if (!calculateHitpoint(ignoredObject, maxDistance)) {
 		return false;
 	}
 
@@ -77,11 +87,13 @@ void RayTracer::doLightCalculations() {
 
 		//shoot ray to light
 		Vector3 direction = (*it)->getDirToLight(hitpoint.getPoint());
-		Ray rtray = Ray(hitpoint.getPoint(), direction); // + direction * 1
+		Vector3 offsetPoint = hitpoint.getPoint() + hitpoint.getNormal() * 1e-4;
+		Ray rtray = Ray(offsetPoint, direction);
 		RayTracer rt = RayTracer(rtray); 
+		double maxDistance = (*it)->getMaxDistanceFrom(hitpoint.getPoint());
 
 		//on hit - do light calculations
-		if (!rt.startRay()) {
+		if (!rt.startRay(hittingObject, maxDistance)) {
 			LightSetting ls = (*it)->getLightSetting(hitpoint.getPoint(), hitpoint.getNormal());
 			diffuse_light += ls.diffuse;
 		}

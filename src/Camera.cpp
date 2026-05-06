@@ -136,7 +136,7 @@ FrameBuffer::FrameBuffer(unsigned int _width, unsigned int _height) {
 
 
 FrameBuffer::~FrameBuffer() {
-	delete frameBuffer;
+	delete[] frameBuffer;
 }
 
 

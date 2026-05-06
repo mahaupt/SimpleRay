@@ -26,12 +26,13 @@ private:
 	GameObject * hittingObject;
 
 
-	bool calculateHitpoint();
+	bool calculateHitpoint(GameObject * ignoredObject = 0,
+	                       double maxDistance = -1);
 public:
 	RayTracer(Ray _ray);
 	~RayTracer();
 
-	bool startRay();
+	bool startRay(GameObject * ignoredObject = 0, double maxDistance = -1);
 	void doLightCalculations();
 	Color getColor() { return color; }
 };

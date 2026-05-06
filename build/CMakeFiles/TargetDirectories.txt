@@ -1,3 +1,0 @@
-/Users/marcel/Documents/Coding.nosync/SimpleRay/build/CMakeFiles/simpleray.dir
-/Users/marcel/Documents/Coding.nosync/SimpleRay/build/CMakeFiles/edit_cache.dir
-/Users/marcel/Documents/Coding.nosync/SimpleRay/build/CMakeFiles/rebuild_cache.dir

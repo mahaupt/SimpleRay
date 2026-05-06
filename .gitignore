@@ -1,5 +1,6 @@
 Debug/
-
+build/
+**.DS_store
 *.vcproj
 *.vcproj.filters
 *.vcxproj

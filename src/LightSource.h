@@ -13,6 +13,8 @@
 // limitations under the License.
 
 #pragma once
+#include <limits>
+
 #include "GameObject.h"
 #include "Vector3.h"
 
@@ -39,6 +41,9 @@ public:
 
 	virtual LightSetting getLightSetting(Vector3 point, Vector3 normal) { return LightSetting(); }
 	virtual Vector3 getDirToLight(Vector3 point) { return position - point; }
+	virtual double getMaxDistanceFrom(Vector3 point) {
+		return getDirToLight(point).magnitude();
+	}
 	Color getColor() { return color; }
 	double getIntensity() { return intensity; }
 };
@@ -73,6 +78,9 @@ public:
 	Directionlight(Color _color, Vector3 direction, double intensity);
 	virtual LightSetting getLightSetting(Vector3 point, Vector3 normal);
 	virtual Vector3 getDirToLight(Vector3 point) { return direction.inverse(); }
+	virtual double getMaxDistanceFrom(Vector3 point) {
+		return std::numeric_limits<double>::infinity();
+	}
 };
 
 

@@ -42,8 +42,16 @@ Sphere& Scene::createSphere(double radius, Vector3 position) {
   return (*sphere);
 }
 
-Camera& Scene::createCamera(Vector3 position) {
-  Camera* camera = new Camera(position, 2440, 1440, 1);
+Cube& Scene::createCube(double size, Vector3 position) {
+  Cube* cube = new Cube(position, size);
+  gameObjects.push_back(cube);
+
+  return (*cube);
+}
+
+Camera& Scene::createCamera(Vector3 position, unsigned int width,
+                            unsigned int height, double aof) {
+  Camera* camera = new Camera(position, width, height, aof);
   gameObjects.push_back(camera);
 
   return (*camera);

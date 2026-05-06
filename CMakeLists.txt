@@ -22,6 +22,7 @@ endif()
 add_executable(simpleray
   src/main.cpp
   src/Camera.cpp
+  src/Cube.cpp
   src/GameObject.cpp
   src/LightSource.cpp
   src/Quaternion.cpp
