@@ -18,6 +18,7 @@
 
 #include <cmath>
 #include <iostream>
+#include <future>
 
 #include "Scene.h"
 
@@ -61,10 +62,11 @@ int main() {
     // start rendering scene:
     FrameBuffer frameBuffer = FrameBuffer(framebufferWidth, framebufferHeight);
 
-    std::thread t1 =
-        std::thread(Camera::renderThreadFB, &cam, &frameBuffer, 0, 2);
-    std::thread t2 =
-        std::thread(Camera::renderThreadFB, &cam, &frameBuffer, 1, 2);
+    int parallel_count = 10;
+    std::vector<std::future<void>> futures;
+    for (int i = 0; i < parallel_count; i++) {
+        futures.push_back(std::async(std::launch::async, Camera::renderThreadFB, &cam, &frameBuffer, i, parallel_count));
+    }
 
     do {
         glViewport(0, 0, framebufferWidth, framebufferHeight);
@@ -82,8 +84,9 @@ int main() {
     while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
            glfwWindowShouldClose(window) == 0);
 
-    t1.join();
-    t2.join();
+    for (int i = 0; i < futures.size(); i++) {
+        futures[i].wait();
+    }
 
     return 0;
 }

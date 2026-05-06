@@ -33,7 +33,6 @@ class Camera : public GameObject {
   ~Camera();
 
   void renderToImage(std::string file);
-  void renderToFB(FrameBuffer* framebuffer);
   static void renderThreadImage(Camera* camera, bitmap_image* bitmap,
                                 unsigned int tid, unsigned int threadNumber);
   static void renderThreadFB(Camera* camera, FrameBuffer* bitmap,

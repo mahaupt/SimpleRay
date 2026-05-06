@@ -53,22 +53,6 @@ void Camera::renderToImage(std::string file) {
 }
 
 
-void Camera::renderToFB(FrameBuffer * framebuffer) {
-	unsigned int nthreads = 1;
-
-	//create 4 threads
-	std::vector<std::thread> threadlist = std::vector<std::thread>();
-	for (int i = 0; i < nthreads; i++) {
-		threadlist.push_back(std::thread(renderThreadFB, this, framebuffer, i, nthreads));
-	}
-
-
-	//join the threads
-	for (std::vector<std::thread>::iterator it = threadlist.begin(); it != threadlist.end(); it++) {
-		(*it).join();
-	}
-}
-
 
 void Camera::renderThreadImage(Camera * camera, bitmap_image * bitmap, unsigned int tid, unsigned int threadNumber) {
 	//create rays
@@ -100,9 +84,17 @@ void Camera::renderThreadImage(Camera * camera, bitmap_image * bitmap, unsigned 
 
 void Camera::renderThreadFB(Camera * camera, FrameBuffer * bitmap, unsigned int tid, unsigned int threadNumber) {
 	//create rays
-	for (unsigned int x = tid; x < camera->getWidth(); x += threadNumber)
+	if (threadNumber == 0 || tid >= threadNumber) {
+		return;
+	}
+
+	unsigned int rowsPerThread = camera->getHeight() / threadNumber;
+	unsigned int starty = rowsPerThread * tid;
+	unsigned int endy = tid == threadNumber - 1 ? camera->getHeight() : rowsPerThread * (tid + 1);
+
+	for (unsigned int y = starty; y < endy; ++y)
 	{
-		for (unsigned int y = 0; y < camera->getHeight(); ++y)
+		for (unsigned int x = 0; x < camera->getWidth(); x ++)
 		{
 			//calculate ray angles
 			double rayanglex = -camera->getAOF() / camera->getWidth()*(y - (double)camera->getHeight()*0.5);
